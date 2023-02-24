@@ -1,6 +1,9 @@
 package slice
 
-import "strings"
+import (
+	"errors"
+	"strings"
+)
 
 // IsStringArrayInclude Returns +true+ if the given +obj+ is present in +arr+
 func IsStringArrayInclude(arr []string, obj string) bool {
@@ -48,6 +51,22 @@ func DifferenceFromLeftStringSlice(a, b []string) []string {
 	return diff
 }
 
+// DifferenceFromLeftUintSlice same as DifferenceFromLeftStringSlice but uint
+func DifferenceFromLeftUintSlice(a, b []uint) []uint {
+	mb := make(map[uint]struct{}, len(b))
+	for _, e := range b {
+		mb[e] = struct{}{}
+	}
+
+	var diff []uint
+	for _, e := range a {
+		if _, found := mb[e]; !found {
+			diff = append(diff, e)
+		}
+	}
+	return diff
+}
+
 // SameValueStringSlice Returns +true+ if a == b
 func SameValueStringSlice(a, b []string) bool {
 	if len(a) != len(b) {
@@ -64,4 +83,20 @@ func SameValueStringSlice(a, b []string) bool {
 	}
 
 	return flag
+}
+
+// MaxIntSlice return the maximum value in +slice+
+func MaxIntSlice(slice []int) (int, error) {
+	if len(slice) == 0 {
+		return 0, errors.New("get an empty slice")
+	}
+
+	max := slice[0]
+	for _, v := range slice {
+		if v > max {
+			max = v
+		}
+	}
+
+	return max, nil
 }

@@ -1,7 +1,6 @@
 package slice
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -11,7 +10,9 @@ func TestIsStringArrayInclude(t *testing.T) {
 
 	res := IsStringArrayInclude(testSlice, testV)
 
-	fmt.Println(res == true)
+	if !res == true {
+		t.Fatal("Not Meet Expectations")
+	}
 }
 
 func TestUintArrayContains(t *testing.T) {
@@ -20,7 +21,9 @@ func TestUintArrayContains(t *testing.T) {
 
 	res := UintArrayContains(testSlice, testV)
 
-	fmt.Println(res == true)
+	if !res == true {
+		t.Fatal("Not Meet Expectations")
+	}
 }
 
 func TestStringContainsAny(t *testing.T) {
@@ -29,14 +32,18 @@ func TestStringContainsAny(t *testing.T) {
 
 	res := StringContainsAny(v1, s1)
 
-	fmt.Println(res == true)
+	if !res == true {
+		t.Fatal("Not Meet Expectations")
+	}
 
 	v2 := "ttt"
 	s2 := []string{"a", "b", "c", "d", "e"}
 
 	res1 := StringContainsAny(v2, s2)
 
-	fmt.Println(res1 == false)
+	if !res1 == false {
+		t.Fatal("Not Meet Expectations")
+	}
 }
 
 func TestDifferenceFromLeftStringSlice(t *testing.T) {
@@ -46,8 +53,9 @@ func TestDifferenceFromLeftStringSlice(t *testing.T) {
 	ideal := []string{"e", "f"}
 	res := DifferenceFromLeftStringSlice(v1, s1)
 
-	fmt.Println(len(res) == len(ideal))
-	fmt.Println(SameValueStringSlice(ideal, res))
+	if !(len(res) == len(ideal)) || !SameValueStringSlice(ideal, res) {
+		t.Fatal("Not Meet Expectations")
+	}
 }
 
 func TestSameValueStringSlice(t *testing.T) {
@@ -56,12 +64,31 @@ func TestSameValueStringSlice(t *testing.T) {
 
 	res := SameValueStringSlice(v1, s1)
 
-	fmt.Println(res == true)
+	if !res == true {
+		t.Fatal("Not Meet Expectations")
+	}
 
 	v2 := []string{"a", "b", "c", "d"}
 	s2 := []string{"a", "b", "c", "d", "f"}
 
 	res2 := SameValueStringSlice(v2, s2)
 
-	fmt.Println(res2 == false)
+	if !res2 == false {
+		t.Fatal("Not Meet Expectations")
+	}
+}
+
+func TestMaxIntSlice(t *testing.T) {
+	s1 := []int{-1, 2, 3, 4, 5}
+	res, err := MaxIntSlice(s1)
+
+	if err != nil || res != 5 {
+		t.Fatal("Not Meet Expectations")
+	}
+
+	s2 := []int{}
+	_, err = MaxIntSlice(s2)
+	if err == nil {
+		t.Fatal("Not Meet Expectations")
+	}
 }
